@@ -1,0 +1,38 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-size: 18px;
+}
+
+body {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	background: #F8F0E3;
+}
+
+#rock {
+	background: #D7A9E3FF;
+}
+
+#paper {
+	background: #8BBEE8FF;
+}
+
+#scissors {
+	background: #A8D5BAFF;
+} 
+
+.choice {
+	padding: 1.5em 3em;
+	max-width: 100%;
+	width: 100%;
+	margin: 0 1.5em;
+	border:1px solid;
+}
+
+#rps {
+	display: flex;
+}

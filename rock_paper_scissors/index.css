@@ -2,15 +2,30 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	font-size: 18px;
+	font-family: 'Raleway', sans-serif;
 }
 
 body {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	min-height: 100vh;
 	background: #F8F0E3;
+}
+
+#gameScore {
+	display: flex;
+	position: absolute;
+	width: 80vw;
+	margin: 0 5em;
+	top: 10%;
+	justify-content: space-between;
+}
+
+.scoreCard {
+	text-align: center;
+	font-size: 24px;
 }
 
 #rock {
@@ -31,8 +46,15 @@ body {
 	width: 100%;
 	margin: 0 1.5em;
 	border:1px solid;
+	font-size: 18px;
 }
 
 #rps {
 	display: flex;
+}
+
+#reset {
+	bottom: 15%;
+	padding: 1em 2em;
+	position: absolute;
 }

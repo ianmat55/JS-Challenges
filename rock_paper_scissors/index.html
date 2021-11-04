@@ -4,10 +4,24 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&family=Raleway&family=Ubuntu:wght@400&display=swap" 
+		rel="stylesheet">
 	<link rel="stylesheet" href='index.css'>
 	<title>Rock, Paper, Scissors</title>
 </head>
 <body>
+	<div id='gameScore'>
+		<div class='scoreCard'>
+			<h1> Player </h1>
+			<h1 class='score' id='player'> 0 </h1>
+		</div>
+		<div class='scoreCard'>
+			<h1> Computer </h1>
+			<h1 class='score' id='computer'> 0 </h1>
+		</div>
+	</div>
 	<div id='game'>
 		<div id='rps'>
 			<button onclick=playGame(0) id='rock' class='choice'> Rock </button>
@@ -15,6 +29,7 @@
 			<button onclick=playGame(2) id='scissors' class='choice'> Scissors </button>
 		</div>
 	</div>
+	<button id='reset' onclick=resetScore()> Reset Score </button>
 <script src='index.js'></script>
 </body>
 </html>

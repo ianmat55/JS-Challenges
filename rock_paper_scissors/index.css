@@ -59,7 +59,7 @@ body {
 }
 
 .choice {
-	padding: 2em 4em;
+	padding: 1.5em 3em;
 	max-width: 100%;
 	width: 100%;
 	margin: 0 1.5em;
@@ -76,7 +76,7 @@ body {
 }
 
 #reset {
-	padding: 1em 2em;
+	padding: .5em 1em;
 	margin: 3em auto;
 	display: flex;
 	justify-content: center;

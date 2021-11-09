@@ -64,3 +64,20 @@ const playGame = async(p) => {
 
 	alert(`player: ${jonKenPo[p]}, computer: ${jonKenPo[c]}\n${message}`);
 };
+
+const rock = document.querySelector('#rock');
+const paper = document.querySelector('#paper');
+const scissors = document.querySelector('#scissors');
+console.log(rock, paper, scissors);
+
+rock.addEventListener('click', () => {
+	playGame(0);
+});
+
+paper.addEventListener('click', () => {
+	playGame(1);
+});
+
+scissors.addEventListener('click', () => {
+	playGame(2);
+});

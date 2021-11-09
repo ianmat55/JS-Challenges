@@ -40,6 +40,23 @@ body {
 	background: #A8D5BAFF;
 } 
 
+#symbols {
+	display: flex;
+}
+
+#symbols div img {
+	max-width: 100%;
+	height: auto;
+	padding: 10px;
+	width: 55%;
+	text-align: center;
+	border: none;
+}
+
+#right {
+	transform: ScaleX(-1);
+}
+
 .choice {
 	padding: 1.5em 3em;
 	max-width: 100%;
@@ -51,6 +68,7 @@ body {
 
 #rps {
 	display: flex;
+	margin-top: 5em;
 }
 
 #reset {

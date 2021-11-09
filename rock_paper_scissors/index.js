@@ -28,10 +28,13 @@ const updateScore = (winner) => {
 };
 
 const resetScore = () => {
-	let resetP = document.getElementById('player');
-	resetP.innerHTML = 0;
-	let resetC = document.getElementById('computer');
-	resetC.innerHTML = 0;
+	playerCount = 0;
+	compCount = 0;
+	
+	let resetP = document.querySelector('#player');
+	resetP.innerHTML = playerCount;
+	let resetC = document.querySelector('#computer');
+	resetC.innerHTML = compCount;
 };
 
 const displayChoice = (p, c) => {
@@ -60,38 +63,27 @@ const playGame = async(p) => {
 	// logic
 	if (p==c) {
 		message = results[0];
-		if (p==0 & c==0) {
-			displayChoice(0, 0);
-		} else if (p==1 & c==1) {
-			displayChoice(1, 1);
-		} else {
-			displayChoice(2, 2);
-		}
-	} else if (p>c & c==0 & p!=1) { // scissors -- rock
+	} else if (p==2 & c==0) { // scissors -- rock
 		message = results[2];
 		updateScore('computer');
-		displayChoice(2,0) 
-	} else if (p<c & p==0 & c!=1) { // rock -- scissors
+	} else if (p==0 & c==2) { // rock -- scissors
 		message = results[1];
 		updateScore('player');
-		displayChoice(0,2)
-	} else if (p<c & c==1) { // rock -- paper
+	} else if (p==0 & c==1) { // rock -- paper
 		message = results[2];
 		updateScore('computer');
-		displayChoice(0,1)
-	} else if (p>c & p==1) { // paper -- rock
+	} else if (p==1 & c==0) { // paper -- rock
 		message = results[1];
 		updateScore('player');
-		displayChoice(1,0)
-	} else if (p>c) { // scissors -- paper
+	} else if (p==2 & c==1) { // scissors -- paper
 		message = results[1];
 		updateScore('player');
-		displayChoice(2,1)
-	} else if (c>p) { // paper -- scissors
+	} else if (p==1 & c==2) { // paper -- scissors
 		message = results[2];
 		updateScore('computer');
-		displayChoice(1,2)
 	}
+
+	displayChoice(p, c);
 
 	// alert(`player: ${jonKenPo[p]}, computer: ${jonKenPo[c]}\n${message}`);
 };

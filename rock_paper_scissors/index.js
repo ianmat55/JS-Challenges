@@ -68,7 +68,7 @@ const playGame = async(p) => {
 const rock = document.querySelector('#rock');
 const paper = document.querySelector('#paper');
 const scissors = document.querySelector('#scissors');
-console.log(rock, paper, scissors);
+const reset = document.querySelector('#reset');
 
 rock.addEventListener('click', () => {
 	playGame(0);
@@ -81,3 +81,7 @@ paper.addEventListener('click', () => {
 scissors.addEventListener('click', () => {
 	playGame(2);
 });
+
+reset.addEventListener('click', () => {
+	resetScore();
+})

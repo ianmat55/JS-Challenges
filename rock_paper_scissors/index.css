@@ -40,15 +40,16 @@ body {
 	background: #A8D5BAFF;
 } 
 
-#symbols {
+#animation {
 	display: flex;
+	margin: 4.5em 5em;
 }
 
-#symbols div img {
+#animation div img {
 	max-width: 100%;
 	height: auto;
 	padding: 10px;
-	width: 55%;
+	width: 60%;
 	text-align: center;
 	border: none;
 }
@@ -58,21 +59,25 @@ body {
 }
 
 .choice {
-	padding: 1.5em 3em;
+	padding: 2em 4em;
 	max-width: 100%;
 	width: 100%;
 	margin: 0 1.5em;
 	border:1px solid;
 	font-size: 18px;
+	border-radius: 4px;
 }
 
 #rps {
 	display: flex;
-	margin-top: 5em;
+	margin-top: 4.5em;
+	width: 100%;
+    max-width: 100%;
 }
 
 #reset {
-	bottom: 15%;
 	padding: 1em 2em;
-	position: absolute;
+	margin: 3em auto;
+	display: flex;
+	justify-content: center;
 }

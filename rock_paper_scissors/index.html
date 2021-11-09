@@ -22,22 +22,24 @@
 			<h1 class='score' id='computer'> 0 </h1>
 		</div>
 	</div>
-	<div id='game'>
-		<div id='symbols'>
-			<div id='left'>
-				<img class='choice' id='player-choice' src='../images/rock.png' />
-			</div>
-			<div id='right'>
-				<img class='choice' id='comp-choice' src='../images/rock.png' />
-			</div>
+	<div id='animation'>
+		<div id='left'>
+			<img class='choice' id='player-choice' src='../images/rock.png' />
 		</div>
-		<div id='rps'>
-			<button id='rock' class='choice'> Rock </button>
-			<button id='paper' class='choice'> Paper </button>
-			<button id='scissors' class='choice'> Scissors </button>
+		<div id='right'>
+			<img class='choice' id='comp-choice' src='../images/rock.png' />
 		</div>
 	</div>
-	<button id='reset' onclick=resetScore()> Reset Score </button>
+	<div id='game'>
+		<div id='buttons'>
+			<div id='rps'>
+				<button id='rock' class='choice'> Rock </button>
+				<button id='paper' class='choice'> Paper </button>
+				<button id='scissors' class='choice'> Scissors </button>
+			</div>
+			<button id='reset'> Reset Score </button>
+		</div>
+	</div>
 <script src='index.js'></script>
 </body>
 </html>

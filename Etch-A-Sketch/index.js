@@ -37,6 +37,7 @@ const renderButtons = () => {
 		temp.width = '200px';
 		settings.appendChild(temp);
 	}
+	settings.id = 'settings';
 	body.appendChild(settings);
 }
 

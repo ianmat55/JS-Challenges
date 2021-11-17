@@ -16,14 +16,30 @@ h1 {
 	margin: auto;
 }
 
+h3 {
+	margin: 15px auto;
+}
+
+button {
+	padding: .5em;
+	margin: 0 .5em;
+}
+
 #grid {
 	display: grid;
 	width: 700px;
 	height: auto;
-	margin: 2em auto;
+	margin: 1em auto;
 }
 
 #grid > div {
 	height: 2.5em;
 	align-items: center;
+}
+
+#settings {
+	margin: 1em auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }

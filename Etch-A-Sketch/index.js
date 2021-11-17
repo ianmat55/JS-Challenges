@@ -16,12 +16,7 @@ const addTitle = () => {
 }
 
 // GRID
-const renderGrid = (col, row) => {
-	gridSection.id = 'section';
-	gridDiv.id = 'grid';
-	body.appendChild(gridSection);
-	gridSection.appendChild(gridDiv);
-	
+const createDivs = (col, row) => {
 	for(let i=0; i<(col*row); i++) {
 		const gridBox = document.createElement('div');
 		gridBox.style.border = '1px solid';
@@ -29,13 +24,57 @@ const renderGrid = (col, row) => {
 		gridDiv.style.gridTemplateRows = `repeat(${col}, 1fr)`;
 		gridDiv.appendChild(gridBox).setAttribute('class', 'grid-space')
 	}
-}
+};
 
-const resetGrid = async(newCol, newRow) => {
+const renderGrid = (col, row) => {
+	gridSection.id = 'section';
+	gridDiv.id = 'grid';
+	body.appendChild(gridSection);
+	gridSection.appendChild(gridDiv);
+	createDivs(col, row);
+};
+
+const gridRedraw = async(newCol, newRow) => {
 	const gridSpaces = document.querySelectorAll('.grid-space');
 	await gridSpaces.forEach(space => space.remove());
-	renderGrid(newCol, newRow)
-}
+	createDivs(newCol, newRow);
+};
+
+
+const setDimensionsBtn = () => {
+	document.querySelector('#setDimensions');
+	setDimensions.addEventListener('click', async() => {
+	let input = prompt('Enter Number for a x by x grid');
+	if (parseInt(input) > 100 || parseInt(input) <= 0 ) {
+		alert('Number must between 1 and 100');
+	} else if (!parseInt(input)) {
+		alert('Please enter a number');
+	} else {
+		col = row = Math.floor(input);
+		gridRedraw(col, row);
+		resetGridBtn();
+		colorGrid('blue');
+	}
+	});
+};
+
+const resetGridBtn = () => {
+	const gridSpaces = document.querySelectorAll('.grid-space');
+	const resetBtn = document.querySelector('#resetGrid');
+	resetBtn.addEventListener('click', () => {
+	gridSpaces.forEach(grid => grid.style.background = '#eee');
+	});
+};
+
+// Color Grid
+const colorGrid = (lineColor) => {
+	const gridSpaces = document.querySelectorAll('.grid-space');
+	gridSpaces.forEach(grid => grid.addEventListener('mouseover', (e) => {
+	if (e.shiftKey) {
+		grid.style.background = lineColor;
+		}
+	}));
+};
 
 // BUTTONS
 const renderButtons = () => {
@@ -54,18 +93,7 @@ const renderButtons = () => {
 
 	settings.id = 'settings';
 	body.appendChild(settings);
-
-	// render grid button dropdown form
-	// const form = document.createElement('form');
-	// const inputCol = document.createElement('input');
-	// const inputRow = document.createElement('input');
-	// const submit = document.createElement('submit');
-	// form.appendChild(inputCol);
-	// form.appendChild(inputRow);
-	// form.append(submit);
-	// btnDropDown.appendChild(form);
-	// btnDropDown.style.display = 'none';
-}
+};
 
 // MAIN 
 const main = async() => {
@@ -79,33 +107,14 @@ const main = async() => {
 		await renderButtons();
 		await renderGrid(col,row);
 
-		// reset grid
-		const resetBtn = document.querySelector('#resetGrid');
-		resetBtn.addEventListener('click', () => {
-			gridSpaces.forEach(grid => grid.style.background = '#eee');
-		});
+		// Event Listeners
+		resetGridBtn();
 
 		// form for new grid with dimensions col and row, limit 100
-		const setDimensions = document.querySelector('#setDimensions');
-		setDimensions.addEventListener('click', async() => {
-			let input = prompt('Enter Number for a x by x grid');
-			if (parseInt(input) > 100 || parseInt(input) <= 0 ) {
-				alert('Number must between 1 and 100');
-			} else if (!parseInt(input)) {
-				alert('Please enter a number');
-			} else {
-				col = row = Math.floor(input);
-				resetGrid(col, row);
-			}
-		});
+		setDimensionsBtn();
 
 		// on hover + shift, grid background will change color
-		const gridSpaces = document.querySelectorAll('.grid-space');
-		gridSpaces.forEach(grid => grid.addEventListener('mouseover', (e) => {
-		if (e.shiftKey) {
-			grid.style.background = lineColor;
-			}
-		}));
+		colorGrid(lineColor);
 		
 		// rgb input value for square color
 
@@ -113,6 +122,6 @@ const main = async() => {
 	catch (err) {
 		throw err;
 	}
-}
+};
 
 main();

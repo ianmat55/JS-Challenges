@@ -68,7 +68,8 @@ const main = async() => {
 		// form for new grid with dimensions col and row, limit 100
 		const setDimensions = document.querySelector('#setDimensions');
 		setDimensions.addEventListener('click', () => {
-			alert('yes');
+			alert(input('Columns:'));
+			alert(input('Rows:'));
 		});
 
 		// rgb input value for square color

@@ -69,8 +69,8 @@ const main = async() => {
 
 	try{
 		await addTitle();
-		await renderGrid(col,row);
 		await renderButtons();
+		await renderGrid(col,row);
 
 		// on hover + shift, grid background will change color
 		const gridSpaces = document.querySelectorAll('.grid-space');

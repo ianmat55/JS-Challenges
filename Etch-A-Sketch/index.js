@@ -6,6 +6,7 @@ const gridSection = document.createElement('div');
 const gridDiv = document.createElement('div');
 const settings = document.createElement('div');
 const btnDropDown = document.createElement('div');
+let lineColor = 'blue';
 
 // TITLE
 const addTitle = () => {
@@ -38,32 +39,8 @@ const gridRedraw = async(newCol, newRow) => {
 	const gridSpaces = document.querySelectorAll('.grid-space');
 	await gridSpaces.forEach(space => space.remove());
 	createDivs(newCol, newRow);
-};
-
-
-const setDimensionsBtn = () => {
-	document.querySelector('#setDimensions');
-	setDimensions.addEventListener('click', async() => {
-	let input = prompt('Enter Number for a x by x grid');
-	if (parseInt(input) > 100 || parseInt(input) <= 0 ) {
-		alert('Number must between 1 and 100');
-	} else if (!parseInt(input)) {
-		alert('Please enter a number');
-	} else {
-		col = row = Math.floor(input);
-		gridRedraw(col, row);
-		resetGridBtn();
-		colorGrid('blue');
-	}
-	});
-};
-
-const resetGridBtn = () => {
-	const gridSpaces = document.querySelectorAll('.grid-space');
-	const resetBtn = document.querySelector('#resetGrid');
-	resetBtn.addEventListener('click', () => {
-	gridSpaces.forEach(grid => grid.style.background = '#eee');
-	});
+	resetGridBtn();
+	colorGrid(lineColor);
 };
 
 // Color Grid
@@ -85,7 +62,7 @@ const renderButtons = () => {
 		let temp = document.createElement('button');
 		temp.innerText = btnNames[i]
 		temp.id = btns[i];
-		temp.className = 'btn'
+		temp.className = 'btn btn-primary';
 		temp.height = '200px';
 		temp.width = '200px';
 		settings.appendChild(temp);
@@ -95,13 +72,36 @@ const renderButtons = () => {
 	body.appendChild(settings);
 };
 
+const setDimensionsBtn = () => {
+	document.querySelector('#setDimensions');
+	setDimensions.addEventListener('click', async() => {
+	let input = prompt('Enter Number for a x by x grid');
+	if (parseInt(input) > 100 || parseInt(input) <= 0 ) {
+		alert('Number must between 1 and 100');
+	} else if (!parseInt(input)) {
+		alert('Please enter a number');
+	} else {
+		col = row = Math.floor(input);
+		gridRedraw(col, row);
+	}
+	});
+};
+
+const resetGridBtn = () => {
+	const gridSpaces = document.querySelectorAll('.grid-space');
+	const resetBtn = document.querySelector('#resetGrid');
+	resetBtn.addEventListener('click', () => {
+	gridSpaces.forEach(grid => grid.style.background = 'white');
+	});
+};
+
 // MAIN 
 const main = async() => {
 	try{
 
 		let col = 16; //default
 		let row = 16; //default
-		let lineColor = 'blue';
+		// let lineColor = 'blue';
 		
 		await addTitle();
 		await renderButtons();

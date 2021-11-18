@@ -29,6 +29,9 @@ const createDivs = (col, row) => {
 
 const renderGrid = (col, row) => {
 	gridSection.id = 'section';
+	gridSection.style.overflow = 'hidden';
+	gridSection.style.maxHeight = '70vh';
+	gridSection.className = 'container';
 	gridDiv.id = 'grid';
 	body.appendChild(gridSection);
 	gridSection.appendChild(gridDiv);
@@ -40,6 +43,8 @@ const gridRedraw = async(newCol, newRow) => {
 	await gridSpaces.forEach(space => space.remove());
 	createDivs(newCol, newRow);
 	resetGridBtn();
+	rgbBtn();
+	grayScaleBtn();
 	colorGrid();
 };
 

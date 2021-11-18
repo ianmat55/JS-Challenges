@@ -6,7 +6,7 @@ const gridSection = document.createElement('div');
 const gridDiv = document.createElement('div');
 const settings = document.createElement('div');
 const btnDropDown = document.createElement('div');
-let lineColor = 'blue';
+const gridSpaces = document.querySelectorAll('.grid-space');
 
 // TITLE
 const addTitle = () => {
@@ -40,7 +40,7 @@ const gridRedraw = async(newCol, newRow) => {
 	await gridSpaces.forEach(space => space.remove());
 	createDivs(newCol, newRow);
 	resetGridBtn();
-	colorGrid(lineColor);
+	colorGrid();
 };
 
 // Color Grid
@@ -48,9 +48,50 @@ const colorGrid = (lineColor) => {
 	const gridSpaces = document.querySelectorAll('.grid-space');
 	gridSpaces.forEach(grid => grid.addEventListener('mouseover', (e) => {
 	if (e.shiftKey) {
+		lineColor;
 		grid.style.background = lineColor;
-		}
+	}
 	}));
+}
+
+const rgb = () => {
+	let r = Math.floor(Math.random() * 256);
+    let g = Math.floor(Math.random() * 256);
+    let b = Math.floor(Math.random() * 256);
+    let rgb = `rgb(${r},${g},${b})`;
+	return rgb;
+}
+
+const rgbBtn = () => {
+	const rgbBtn = document.querySelector('#rgb');
+	const gridSpaces = document.querySelectorAll('.grid-space');
+	rgbBtn.addEventListener('click', () => {
+		gridSpaces.forEach(grid => grid.addEventListener('mouseover', (e) => {
+		if (e.shiftKey) {
+			let color = rgb();
+			grid.style.background = color;
+		}
+		}))
+	})
+};
+
+const grayScale = () => {
+	let val = (Math.random()*(256)|0).toString(16);//bitwise OR. Gives value in the range 0-255 which is then converted to base 16 (hex).
+	let scale =  "#" + val + val + val;
+	return scale;
+};
+
+const grayScaleBtn = () => {
+	const grayScaleBtn = document.querySelector('#grayScale');
+	const gridSpaces = document.querySelectorAll('.grid-space');
+	grayScaleBtn.addEventListener('click', () => {
+		gridSpaces.forEach(grid => grid.addEventListener('mouseover', (e) => {
+		if (e.shiftKey) {
+			let color = grayScale();
+			grid.style.background = color;
+		}
+		}))
+	})
 };
 
 // BUTTONS
@@ -101,7 +142,6 @@ const main = async() => {
 
 		let col = 16; //default
 		let row = 16; //default
-		// let lineColor = 'blue';
 		
 		await addTitle();
 		await renderButtons();
@@ -114,9 +154,15 @@ const main = async() => {
 		setDimensionsBtn();
 
 		// on hover + shift, grid background will change color
-		colorGrid(lineColor);
+		rgbBtn();
+
+		grayScale();
 		
-		// rgb input value for square color
+		const grayScaleBtn = document.querySelector('#grayScale');
+		grayScaleBtn.addEventListener('click', () => {
+			colorGrid(grayScale());
+		});
+		// colorGrid();
 
 	}
 	catch (err) {

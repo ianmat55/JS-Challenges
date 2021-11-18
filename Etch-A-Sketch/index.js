@@ -44,12 +44,11 @@ const gridRedraw = async(newCol, newRow) => {
 };
 
 // Color Grid
-const colorGrid = (lineColor) => {
+const colorGrid = () => {
 	const gridSpaces = document.querySelectorAll('.grid-space');
 	gridSpaces.forEach(grid => grid.addEventListener('mouseover', (e) => {
 	if (e.shiftKey) {
-		lineColor;
-		grid.style.background = lineColor;
+		grid.style.background = 'blue';
 	}
 	}));
 }
@@ -82,8 +81,8 @@ const grayScale = () => {
 };
 
 const grayScaleBtn = () => {
-	const grayScaleBtn = document.querySelector('#grayScale');
 	const gridSpaces = document.querySelectorAll('.grid-space');
+	const grayScaleBtn = document.querySelector('#grayScale');
 	grayScaleBtn.addEventListener('click', () => {
 		gridSpaces.forEach(grid => grid.addEventListener('mouseover', (e) => {
 		if (e.shiftKey) {
@@ -153,17 +152,11 @@ const main = async() => {
 		// form for new grid with dimensions col and row, limit 100
 		setDimensionsBtn();
 
-		// on hover + shift, grid background will change color
+		// set line color
 		rgbBtn();
-
-		grayScale();
+		grayScaleBtn();
+		colorGrid();
 		
-		const grayScaleBtn = document.querySelector('#grayScale');
-		grayScaleBtn.addEventListener('click', () => {
-			colorGrid(grayScale());
-		});
-		// colorGrid();
-
 	}
 	catch (err) {
 		throw err;

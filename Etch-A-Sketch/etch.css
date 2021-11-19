@@ -44,3 +44,42 @@ button {
 	align-items: center;
 	justify-content: center;
 }
+
+@media only screen and (max-width: 800px) {
+	#grid {
+		width: 500px;
+		height: 500px;
+	}
+}
+
+@media only screen and (max-width: 500px) {
+	body {
+		padding: 2.5em;
+	}
+
+	.btn {
+		font-size: 10px !important;
+	}
+
+	#grid {
+		width: 250px;
+		height: 500px;
+	}
+}
+
+@media only screen and (max-width: 375px) {
+	
+	body {
+		padding: 2em;
+	}
+
+	h3 {
+		font-size: 18px !important;
+	}
+
+	#grid {
+		width: 200px;
+		height: 500px;
+	}
+}
+

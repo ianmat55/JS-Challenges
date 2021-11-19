@@ -4,7 +4,7 @@
   "description": "Collection of JavaScript Coding Challenges",
   "main": "index.js",
   "scripts": {
-    "deploy": "gh-pages -d"
+    "deploy": "gh-pages -d ./"
   },
   "repository": {
     "type": "git",

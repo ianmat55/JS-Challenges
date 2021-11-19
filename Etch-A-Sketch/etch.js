@@ -1,4 +1,4 @@
-// populating html purely with js
+// populating html purely with js just for fun
 const title = document.createElement('h1');
 const directions = document.createElement('h3');
 const body = document.querySelector('body');
@@ -30,7 +30,7 @@ const createDivs = (col, row) => {
 const renderGrid = (col, row) => {
 	gridSection.id = 'section';
 	gridSection.style.overflow = 'hidden';
-	gridSection.style.maxHeight = '70vh';
+	// gridSection.style.maxHeight = '70vh';
 	gridSection.className = 'container';
 	gridDiv.id = 'grid';
 	body.appendChild(gridSection);

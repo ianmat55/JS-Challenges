@@ -1,0 +1,19 @@
+body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+#card {
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	height: 90vh;
+}
+
+#Projects {
+	padding: 2em;
+	width: 70%;
+}

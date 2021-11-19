@@ -7,8 +7,7 @@
 body {
 	display: flex;
 	flex-direction: column;
-	margin: 5em 0 !important;
-	padding: 0 5em;
+	padding: 5em;
 }
 
 h1 {
@@ -26,10 +25,12 @@ button {
 
 #grid {
 	display: grid;
-	width: 850px;
+	width: 800px;
+	height: 800px;
 	max-height: 100%;
 	margin: 2em auto;
 	border: 1px solid;
+	overflow: hidden;
 }
 
 #grid > div {
@@ -43,3 +44,42 @@ button {
 	align-items: center;
 	justify-content: center;
 }
+
+@media only screen and (max-width: 800px) {
+	#grid {
+		width: 500px;
+		height: 500px;
+	}
+}
+
+@media only screen and (max-width: 500px) {
+	body {
+		padding: 2.5em;
+	}
+
+	.btn {
+		font-size: 10px !important;
+	}
+
+	#grid {
+		width: 250px;
+		height: 500px;
+	}
+}
+
+@media only screen and (max-width: 375px) {
+	
+	body {
+		padding: 2em;
+	}
+
+	h3 {
+		font-size: 18px !important;
+	}
+
+	#grid {
+		width: 200px;
+		height: 500px;
+	}
+}
+

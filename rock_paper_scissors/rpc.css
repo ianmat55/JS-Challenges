@@ -14,11 +14,19 @@ body {
 	background: #F8F0E3;
 }
 
+.container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
 #gameScore {
 	display: flex;
 	position: absolute;
-	width: 80vw;
-	margin: 0 5em;
+	width: 100%;
+	margin: auto;
 	top: 10%;
 	justify-content: space-between;
 }
@@ -26,6 +34,7 @@ body {
 .scoreCard {
 	text-align: center;
 	font-size: 24px;
+	margin: auto;
 }
 
 #rock {
@@ -43,6 +52,7 @@ body {
 #animation {
 	display: flex;
 	margin: 4.5em 5em;
+	justify-content: center;
 }
 
 #animation div img {

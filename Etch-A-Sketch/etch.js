@@ -30,7 +30,7 @@ const createDivs = (col, row) => {
 const renderGrid = (col, row) => {
 	gridSection.id = 'section';
 	gridSection.style.overflow = 'hidden';
-	gridSection.style.maxHeight = '70vh';
+	// gridSection.style.maxHeight = '70vh';
 	gridSection.className = 'container';
 	gridDiv.id = 'grid';
 	body.appendChild(gridSection);

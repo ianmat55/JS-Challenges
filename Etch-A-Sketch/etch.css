@@ -7,8 +7,8 @@
 body {
 	display: flex;
 	flex-direction: column;
-	margin: 5em 0 !important;
-	padding: 0 5em;
+	padding: 5em;
+	max-height: 90vh;
 }
 
 h1 {

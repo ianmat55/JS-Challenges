@@ -20,7 +20,7 @@ const addTitle = () => {
 const createDivs = (col, row) => {
 	for(let i=0; i<(col*row); i++) {
 		const gridBox = document.createElement('div');
-		gridBox.style.border = '1px solid';
+		// gridBox.style.border = '1px solid';
 		gridDiv.style.gridTemplateColumns = `repeat(${col}, 1fr)`;
 		gridDiv.style.gridTemplateRows = `repeat(${col}, 1fr)`;
 		gridDiv.appendChild(gridBox).setAttribute('class', 'grid-space')

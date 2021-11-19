@@ -1,0 +1,24 @@
+{
+  "name": "jschallenges",
+  "version": "1.0.0",
+  "description": "Collection of JavaScript Coding Challenges",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ianmat55/JS-Challenges.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ianmat55/JS-Challenges/issues"
+  },
+  "homepage": "https://github.com/ianmat55/JS-Challenges#readme",
+  "dependencies": {
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.15"
+  }
+}

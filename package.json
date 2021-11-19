@@ -1,0 +1,22 @@
+{
+  "name": "jschallenges",
+  "version": "1.0.0",
+  "description": "Collection of JavaScript Coding Challenges",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ianmat55/JS-Challenges.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ianmat55/JS-Challenges/issues"
+  },
+  "homepage": "https://github.com/ianmat55/JS-Challenges",
+  "dependencies": {
+    "gh-pages": "^3.2.3"
+  }
+}

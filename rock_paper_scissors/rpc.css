@@ -1,0 +1,83 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Raleway', sans-serif;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	min-height: 100vh;
+	background: #F8F0E3;
+}
+
+#gameScore {
+	display: flex;
+	position: absolute;
+	width: 80vw;
+	margin: 0 5em;
+	top: 10%;
+	justify-content: space-between;
+}
+
+.scoreCard {
+	text-align: center;
+	font-size: 24px;
+}
+
+#rock {
+	background: #D7A9E3FF;
+}
+
+#paper {
+	background: #8BBEE8FF;
+}
+
+#scissors {
+	background: #A8D5BAFF;
+} 
+
+#animation {
+	display: flex;
+	margin: 4.5em 5em;
+}
+
+#animation div img {
+	max-width: 100%;
+	height: auto;
+	padding: 10px;
+	width: 60%;
+	text-align: center;
+	border: none;
+}
+
+#right {
+	transform: ScaleX(-1);
+}
+
+.choice {
+	padding: 1.5em 3em;
+	max-width: 100%;
+	width: 100%;
+	margin: 0 1.5em;
+	border:1px solid;
+	font-size: 18px;
+	border-radius: 4px;
+}
+
+#rps {
+	display: flex;
+	margin-top: 4.5em;
+	width: 100%;
+    max-width: 100%;
+}
+
+#reset {
+	padding: .5em 1em;
+	margin: 3em auto;
+	display: flex;
+	justify-content: center;
+}

@@ -57,6 +57,10 @@ button {
 		padding: 2.5em;
 	}
 
+	h3 {
+		font-size: 18px !important;
+	}
+
 	.btn {
 		font-size: 10px !important;
 	}

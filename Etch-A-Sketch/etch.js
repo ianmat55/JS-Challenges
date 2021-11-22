@@ -1,6 +1,6 @@
 // populating html purely with js just for fun
 const title = document.createElement('h1');
-const directions = document.createElement('h3');
+const directions = document.createElement('p');
 const body = document.querySelector('body');
 const gridSection = document.createElement('div');
 const gridDiv = document.createElement('div');

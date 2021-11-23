@@ -19,9 +19,13 @@ const updateScore = (winner) => {
 	let update = document.getElementById(winner);
 
 	if (winner=='player') {
+		const displayWinner = document.querySelector('#winner-msg');
+		displayWinner.innerHTML = `<h3> Player Wins </h3>`
 		playerCount++;
 		update.innerHTML = playerCount;
 	} else if (winner=='computer') {
+		const displayWinner = document.querySelector('#winner-msg');
+		displayWinner.innerHTML = `<h3> Computer Wins </h3>`
 		compCount++
 		update.innerHTML = compCount;
 	}
@@ -44,9 +48,9 @@ const displayChoice = (p, c) => {
 	left.src = rpc[p];
 	right.src = rpc[c];
 
-	const displayWinner = document.querySelector('#winner-msg');
+	// const displayWinner = document.querySelector('#winner-msg');
 	
-	displayWinner.innerHTML = `<h1> player: ${jonKenPo[p]}, computer: ${jonKenPo[c]} </h1>`
+	// displayWinner.innerHTML = `<h1> ${jonKenPo[p]}\t${jonKenPo[c]} </h1>`
 
 	setTimeout(function() {
 		left.src = rpc[0];

@@ -51,10 +51,8 @@ const gridRedraw = async(newCol, newRow) => {
 // Color Grid
 const colorGrid = () => {
 	const gridSpaces = document.querySelectorAll('.grid-space');
-	gridSpaces.forEach(grid => grid.addEventListener('mouseover', (e) => {
-	if (e.shiftKey) {
+	gridSpaces.forEach(grid => grid.addEventListener('mouseover', () => {
 		grid.style.background = 'blue';
-	}
 	}));
 }
 
@@ -71,10 +69,8 @@ const rgbBtn = () => {
 	const gridSpaces = document.querySelectorAll('.grid-space');
 	rgbBtn.addEventListener('click', () => {
 		gridSpaces.forEach(grid => grid.addEventListener('mouseover', (e) => {
-		if (e.shiftKey) {
 			let color = rgb();
 			grid.style.background = color;
-		}
 		}))
 	})
 };
@@ -89,11 +85,9 @@ const grayScaleBtn = () => {
 	const gridSpaces = document.querySelectorAll('.grid-space');
 	const grayScaleBtn = document.querySelector('#grayScale');
 	grayScaleBtn.addEventListener('click', () => {
-		gridSpaces.forEach(grid => grid.addEventListener('mouseover', (e) => {
-		if (e.shiftKey) {
+		gridSpaces.forEach(grid => grid.addEventListener('mouseover', () => {
 			let color = grayScale();
 			grid.style.background = color;
-		}
 		}))
 	})
 };

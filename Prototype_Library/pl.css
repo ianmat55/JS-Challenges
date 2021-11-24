@@ -35,3 +35,12 @@ form {
 #submit {
 	margin: 1em 0;
 }
+
+table {
+	text-align: center;
+}
+
+td {
+	margin: auto;
+	vertical-align: baseline;
+}

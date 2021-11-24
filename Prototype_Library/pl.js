@@ -32,16 +32,12 @@ function updateRead(id) {
 	const updatedCol = document.querySelector(`#${id}`);
 	const row = updatedCol.parentNode.parentNode;
 
-	console.log(updatedCol.textContent);
-
 	if (updatedCol.textContent === 'No') {
 		updatedCol.innerHTML = 'Yes';
 		row.setAttribute('class', 'table-success');
-		console.log(updatedCol.textContent);
 	} else if (updatedCol.textContent === 'Yes') {
 		updatedCol.innerHTML = 'No';
 		row.setAttribute('class', 'table-warning');
-		console.log(updatedCol.textContent);
 	}
 };
 
@@ -102,7 +98,8 @@ Book.prototype.updateTable = function () {
 	const table = document.querySelector('tbody');
 
 	let newRow = document.createElement('tr');
-	newRow.setAttribute('id', library.length);
+	let rowId = library[library.length-1]['title'].replace(/\s/g, '');
+	newRow.setAttribute('id', rowId);
 
 	let title = document.createElement('td');
 	title.textContent = this.title;
@@ -137,7 +134,7 @@ Book.prototype.updateTable = function () {
 	deleteBtn.classList.add('btn', 'btn-danger', 'delete');
 	deleteBtn.textContent = 'Delete';
 	deleteBtn.style.background = 'red';
-	deleteBtn.setAttribute('id', table.length);
+	deleteBtn.setAttribute('id', library.length-1);
 	deleteBtn.onclick = function() { deleteEntry(this.id) };
 	del.appendChild(deleteBtn);
 	newRow.appendChild(del);
@@ -157,5 +154,4 @@ document.querySelector('form').addEventListener('submit', (e) => {
 	library.push(book);
 	book.updateTable(book);
 });
-
 

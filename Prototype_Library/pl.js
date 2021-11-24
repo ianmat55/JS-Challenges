@@ -22,10 +22,28 @@ function Book(title, author, pages, didRead) {
 };
 
 function deleteEntry(id) {
-	console.log('hello');
-	console.log(id);
+	const selectedTitle = library[id]['title'].replace(/\s/g, '');
+	const deletedElement = document.querySelector(`#${selectedTitle}`);
+	deletedElement.remove();
+	delete library[id];
 };
 
+function updateRead(id) {
+	const updatedCol = document.querySelector(`#${id}`);
+	const row = updatedCol.parentNode.parentNode;
+
+	console.log(updatedCol.textContent);
+
+	if (updatedCol.textContent === 'No') {
+		updatedCol.innerHTML = 'Yes';
+		row.setAttribute('class', 'table-success');
+		console.log(updatedCol.textContent);
+	} else if (updatedCol.textContent === 'Yes') {
+		updatedCol.innerHTML = 'No';
+		row.setAttribute('class', 'table-warning');
+		console.log(updatedCol.textContent);
+	}
+};
 
 // Immediately display books in library, remove when upgrading to either local/database storage
 (function() {
@@ -33,7 +51,8 @@ function deleteEntry(id) {
 	
 	for (let i=0; i<library.length; i++) {
 		let newRow = document.createElement('tr');
-		newRow.setAttribute('id', i);
+		let rowId = library[i]['title'].replace(/\s/g, '');
+		newRow.setAttribute('id', rowId);
 
 		let title = document.createElement('td');
 		title.textContent = library[i]['title'];
@@ -48,13 +67,18 @@ function deleteEntry(id) {
 		newRow.appendChild(pages);
 
 		let didRead = document.createElement('td')
+		let readBtn = document.createElement('button');
+		readBtn.classList.add('btn', 'didReadBtn');
+		readBtn.setAttribute('id', `read${i}`);
+		readBtn.onclick = function() { updateRead(this.id) };
+		didRead.appendChild(readBtn);
 		if (library[i]['didRead'] == false) {
 			newRow.setAttribute('class', 'table-warning');
-			didRead.textContent = "No";
+			readBtn.textContent = "No";
 			newRow.appendChild(didRead);
 		} else {
 			newRow.setAttribute('class', 'table-success');
-			didRead.textContent = "Yes";
+			readBtn.textContent = "Yes";
 			newRow.appendChild(didRead);
 		};
 
@@ -64,6 +88,7 @@ function deleteEntry(id) {
 		deleteBtn.textContent = 'Delete';
 		deleteBtn.style.background = 'red';
 		deleteBtn.setAttribute('id', i);
+		deleteBtn.onclick = function() { deleteEntry(this.id) };
 		del.appendChild(deleteBtn);
 		newRow.appendChild(del);
 		
@@ -92,13 +117,18 @@ Book.prototype.updateTable = function () {
 	newRow.appendChild(pages);
 
 	let didRead = document.createElement('td')
+	let readBtn = document.createElement('button');
+	readBtn.classList.add('btn', 'didReadBtn');
+	readBtn.setAttribute('id', `read${library.length}`);
+	readBtn.onclick = function() { updateRead(this.id) };
+	didRead.appendChild(readBtn);
 	if (this.didRead == false) {
 		newRow.setAttribute('class', 'table-warning');
-		didRead.textContent = "No";
+		readBtn.textContent = "No";
 		newRow.appendChild(didRead);
 	} else {
 		newRow.setAttribute('class', 'table-success');
-		didRead.textContent = "Yes";
+		readBtn.textContent = "Yes";
 		newRow.appendChild(didRead);
 	};
 
@@ -108,6 +138,7 @@ Book.prototype.updateTable = function () {
 	deleteBtn.textContent = 'Delete';
 	deleteBtn.style.background = 'red';
 	deleteBtn.setAttribute('id', table.length);
+	deleteBtn.onclick = function() { deleteEntry(this.id) };
 	del.appendChild(deleteBtn);
 	newRow.appendChild(del);
 		

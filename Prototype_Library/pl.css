@@ -1,0 +1,62 @@
+body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box'
+}
+
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	height: 100vh;
+	padding: 2em;
+}
+
+#header {
+	text-align: center;
+}
+
+#pages {
+	width: 45% !important;
+}
+
+#pages-read {
+	display: flex;
+	justify-content: center;
+	align-items: center
+}
+
+#check-container {
+	width: 45%;
+	margin: 0 0 0 5%;
+}
+
+form {
+	margin: 2em;
+}
+
+#submit {
+	margin: 1em 0;
+}
+
+table {
+	text-align: center;
+}
+
+td {
+	margin: auto;
+	vertical-align: baseline;
+}
+
+@media only screen and (max-width: 500px) {
+	form {
+		display: flex;
+		flex-direction: column !important;
+	}
+
+	form .row {
+		display: flex;
+		flex-direction: column !important;
+	}
+}

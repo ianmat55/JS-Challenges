@@ -48,3 +48,15 @@ td {
 	margin: auto;
 	vertical-align: baseline;
 }
+
+@media only screen and (max-width: 500px) {
+	form {
+		display: flex;
+		flex-direction: column !important;
+	}
+
+	form .row {
+		display: flex;
+		flex-direction: column !important;
+	}
+}

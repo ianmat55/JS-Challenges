@@ -161,37 +161,76 @@ const displayController = () => {
 
 	let currentPlayer = 'X';
 	let gameActive = true;
+	let count = 0;
 	const cells = document.querySelectorAll('.gridSquare');
 	const resetBtn = document.querySelector('.btn-danger');
 	
 	// to be refactored
 	const checkWin = () => {
+		count++;
 		for (let i=0; i<winningConditions.length; i++) {
-			if (grid[winningConditions[i][0]] === "X" && grid[winningConditions[i][0]] === "X" && grid[winningConditions[i][0]] === "X") {
-				console.log('FUCK YEA');
+			if (grid[winningConditions[i][0]] === "X" && grid[winningConditions[i][1]] === "X" && grid[winningConditions[i][2]] === "X") {
+				displayWinner(currentPlayer);
+				return
 			};
-			if (grid[winningConditions[i][0]] === "O" && grid[winningConditions[i][0]] === "O" && grid[winningConditions[i][0]] === "O") {
-				console.log('FUCK YEA');
+			if (grid[winningConditions[i][0]] === "O" && grid[winningConditions[i][1]] === "O" && grid[winningConditions[i][2]] === "O") {
+				displayWinner(currentPlayer);
+				return
 			}
 		};
+		if (count === 9) {
+			displayWinner(null);
+		}
 	};
 
-	// const checkArrEqual = (arr1, arr2) => {
-	// 	if (arr1 === arr2) {
-	// 		return true;
-	// 	}
-	// 	if (arr1.length != arr2.length) {
-	// 		return false;
-	// 	};
+	const displayWinner = (symbol) => {
+		const body = document.querySelector('body');
+		const container = document.querySelector('.container');
 
-	// 	for (let i=0; i<arr1.length; i++) {
-	// 		if (arr1[i] != arr2[i]) {
-	// 			return false;
-	// 		}
-	// 	};
+		// create winnerMsg
+		const winnerMsg = document.createElement('div');
+		winnerMsg.setAttribute('id', 'winner-container');
+		const winner = document.createElement('h1');
+		winner.setAttribute('id', 'winner-msg');
 
-	// 	return true;
-	// };
+		// check if tie
+		if (symbol === null) {
+			winner.innerHTML = 'Its a tie!';
+		} else {
+			winner.innerHTML = `${symbol} wins!`
+		}
+		winnerMsg.appendChild(winner);
+
+		// div for btns
+		const buttonsDiv = document.createElement('div');
+		buttonsDiv.setAttribute('id', 'restart-return');
+
+		// restart btn
+		const restartBtn = document.createElement('button');
+		restartBtn.classList.add('btn', 'btn-primary');
+		restartBtn.innerHTML = 'Restart';
+		buttonsDiv.appendChild(restartBtn);
+
+		// return to title btn
+		const returnToTitle = document.createElement('button');
+		returnToTitle.classList.add('btn', 'btn-warning');
+		returnToTitle.innerHTML = 'Exit';
+		buttonsDiv.appendChild(returnToTitle);
+
+		winnerMsg.appendChild(buttonsDiv);
+
+		body.appendChild(winnerMsg);
+
+		restartBtn.addEventListener('click', async() => {
+			await clear();			
+			winnerMsg.remove();
+		});
+
+		returnToTitle.addEventListener('click', async() => {
+			await winnerMsg.remove();
+			await container.remove();
+		});
+	};
 
 	const displayMove = async(cell, index) => {
 		if (grid[index] != '') {
@@ -213,6 +252,8 @@ const displayController = () => {
 	};
 
 	const clear = () => {
+		currentPlayer = 'X';
+		count = 0;
 		for (let i=0; i<grid.length; i++) {
 			grid[i] = '';
 		}
@@ -231,7 +272,7 @@ const displayController = () => {
 
 	resetBtn.addEventListener('click', () => clear());
 
-	return { grid, currentPlayer, gameActive, clear, displayMove, checkWin };
+	return { grid, currentPlayer, gameActive, clear, displayMove, checkWin, displayWinner };
 };
 
 const player = (sign) => {

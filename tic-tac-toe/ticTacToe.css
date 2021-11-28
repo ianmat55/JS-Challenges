@@ -7,6 +7,10 @@
 body {
 	background-color: #12181B;
 	color: white;
+	max-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .hide {
@@ -135,4 +139,23 @@ body {
 #resetSettings {
 	text-align: center;
 	margin-top: 4em;
+}
+
+#winner-container {
+	background: rgb(0, 65, 89, .3);
+	position: absolute;
+	z-index: 100;
+	margin: auto;
+	width: 500px;
+	height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+	text-align: center;
+}
+
+#restart-return{
+	display: flex;
+	justify-content: space-evenly;
+	padding: 3em;
 }

@@ -49,20 +49,29 @@ const loadHTML = (() => {
 		aiBtn.addEventListener('click', async() => {
 			const player1 = player('X');
 			const bot = unbeatableComputer('O');
-
+			const board = loadGameBoard(player1, bot);
+			const display = displayController();
+			
 			await settingsDiv.remove();
-			await loadGameBoard(player1, bot);
-			await displayController();
 		});
 	
 		pvp.addEventListener('click', async() => {
 			const player1 = player('X');
 			const player2 = player('O');
+			const board = loadGameBoard(player1, player2);
+			const display = displayController();
+			const cells = document.querySelectorAll('.gridSquare');
+			const resetBtn = document.querySelector('.btn-danger');
 
 			await settingsDiv.remove();
-			await loadGameBoard(player1, player2);
-			await displayController();
-		})
+
+			// How does forEach know what to assign each parameter? How does it magically know the index?
+			cells.forEach((cell, index) => {
+				cell.addEventListener('click', () => display.displayMove(cell, index));
+			});
+
+			resetBtn.addEventListener('click', () => display.clear());
+		});
 	});
 })();
 
@@ -162,8 +171,6 @@ const displayController = () => {
 	let currentPlayer = 'X';
 	let gameActive = true;
 	let count = 0;
-	const cells = document.querySelectorAll('.gridSquare');
-	const resetBtn = document.querySelector('.btn-danger');
 	
 	// to be refactored
 	const checkWin = () => {
@@ -227,8 +234,7 @@ const displayController = () => {
 		});
 
 		returnToTitle.addEventListener('click', async() => {
-			await winnerMsg.remove();
-			await container.remove();
+			location.reload();
 		});
 	};
 
@@ -264,13 +270,6 @@ const displayController = () => {
 			cell.className = 'gridSquare';
 		});
 	};
-
-	// How does forEach know what to assign each parameter? How does it magically know the index?
-	cells.forEach((cell, index) => {
-		cell.addEventListener('click', () => displayMove(cell, index));
-	});
-
-	resetBtn.addEventListener('click', () => clear());
 
 	return { grid, currentPlayer, gameActive, clear, displayMove, checkWin, displayWinner };
 };

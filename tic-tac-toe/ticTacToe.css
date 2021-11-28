@@ -4,6 +4,15 @@
 	box-sizing: border-box;
 }
 
+body {
+	background-color: #12181B;
+	color: white;
+}
+
+.hide {
+	display: none;
+}
+
 .container {
 	height: 100vh !important;
 	margin: auto;
@@ -14,6 +23,7 @@
 
 #header {
 	text-align: center;
+	margin-bottom: 20px;
 }
 
 #startGame {
@@ -26,6 +36,55 @@
 	margin: 10px;
 }
 
+#playerCards {
+	display: flex;
+	justify-content: space-between;
+	padding: 3em 15em;
+}
+
+#playerCards div h3 {
+	margin: 0 10px;
+	padding: 5px;
+	display: flex;
+	align-items: center;
+	border-radius: 5px;
+}
+
+#playerCards div h2 {
+	margin: auto;
+	display: flex;
+	align-items: center;
+}
+
+.player {
+	display: flex;
+	align-content: center;
+}
+
+.player h3 {
+	background-color: #09C372;
+	/* background-color: #09858b; */
+}
+
+.bot {
+	display: flex;
+	align-content: center;
+}
+
+.bot h3 {
+	background-color: #e7166e;
+}
+
+.playerX {
+	color: #09C372;
+	/* color: #09858b; */
+}
+
+.playerO {
+	color: #e7166e;
+}
+
+
 #gameBoard {
 	display: grid;
 	justify-content: center;
@@ -36,9 +95,21 @@
 }
 
 .gridSquare {
-	width: 100px;
-	height: 100px;
-	border: 1px solid black;
+	width: 150px;
+	height: 150px;
+	border: 1px solid white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 5rem;
+}
+
+.green {
+	color: #09C372;
+}
+
+.pink {
+	color: #e7166e;
 }
 
 .gridSquare:first-child,
@@ -59,4 +130,9 @@
 .gridSquare:nth-child(8),
 .gridSquare:nth-child(7) {
 	border-bottom: none;
+}
+
+#resetSettings {
+	text-align: center;
+	margin-top: 4em;
 }

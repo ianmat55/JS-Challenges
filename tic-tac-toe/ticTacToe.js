@@ -158,24 +158,69 @@ const displayController = () => {
 		[2, 4, 6],
 		[0, 4, 1]
 	];
+
 	let currentPlayer = 'X';
 	let gameActive = true;
 	const cells = document.querySelectorAll('.gridSquare');
 	const resetBtn = document.querySelector('.btn-danger');
+	
+	// to be refactored
+	const checkWin = (index) => {
+		const x = [];
+		const o = [];
 
-	// How does forEach know what to assign each parameter? How does it magically know the index?
-	cells.forEach((cell, index) => {
-		cell.addEventListener('click', () => displayMove(cell, index));
-	});
+		if(currentPlayer == 'X') {
+			for (let i=0; i<winningConditions.length; i++) {
+				
+				let intersection = winningConditions[i].filter(val => x.includes(val));
 
-	resetBtn.addEventListener('click', () => clear());
+				// console.log(`x: ${x}, set: ${winningConditions[i]}, matches: ${checkArrEqual(intersection, winningConditions[i])}`);
 
-	const displayMove = (cell, index) => {
+				if (checkArrEqual(intersection, winningConditions[i])) {
+					console.log("Praaaiiise Jesus");
+				}
+			}
+			x.push(index)
+
+		} else if (currentPlayer == 'O') {
+			for (let i=0; i<winningConditions.length; i++) {
+				let intersection = winningConditions[i].filter(val => o.includes(val));
+
+				// console.log(`o: ${o}, set: ${winningConditions[i]}, matches: ${checkArrEqual(intersection, winningConditions[i])}`);
+
+				if (checkArrEqual(intersection, winningConditions[i])) {
+					console.log("Praaaiiise Jesus");
+				} 
+			}
+			o.push(index);
+		};
+		console.log(`x: ${x}, o: ${o}`)
+	};
+
+	const checkArrEqual = (arr1, arr2) => {
+		if (arr1 === arr2) {
+			return true;
+		}
+		if (arr1.length != arr2.length) {
+			return false;
+		};
+
+		for (let i=0; i<arr1.length; i++) {
+			if (arr1[i] != arr2[i]) {
+				return false;
+			}
+		};
+
+		return true;
+	};
+
+	const displayMove = async(cell, index) => {
 		if (grid[index] != '') {
 			return
 		}
 		cell.innerHTML = currentPlayer;
 		grid[index] = currentPlayer;
+		checkWin(index);
 
 		if (currentPlayer == 'X') {
 			// set color to green and change currentPlayer to O
@@ -198,9 +243,16 @@ const displayController = () => {
 			cell.innerHTML = "";
 			cell.className = 'gridSquare';
 		});
-	}
+	};
 
-	return { clear };
+	// How does forEach know what to assign each parameter? How does it magically know the index?
+	cells.forEach((cell, index) => {
+		cell.addEventListener('click', () => displayMove(cell, index));
+	});
+
+	resetBtn.addEventListener('click', () => clear());
+
+	return { grid, currentPlayer, clear, displayMove, checkWin };
 };
 
 const player = (sign) => {

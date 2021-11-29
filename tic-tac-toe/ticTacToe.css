@@ -47,7 +47,7 @@ body {
 }
 
 #playerCards div h3 {
-	margin: 0 10px;
+	margin: 0 5px;
 	padding: 5px;
 	display: flex;
 	align-items: center;
@@ -158,4 +158,33 @@ body {
 	display: flex;
 	justify-content: space-evenly;
 	padding: 3em;
+}
+
+@media only screen and (max-width: 800px) {
+	#playerCards {
+		padding: 3em 10em;
+	}
+
+	#playerCards div h3{
+		font-size: 18px;
+		padding: 0 5px;
+	}
+}
+@media only screen and (max-width: 500px) {
+	#playerCards {
+		padding: 1.5em 5em;
+	}
+
+	#playerCards div h3{
+		font-size: 14px;
+		padding: 0 3px;
+	}
+
+	.gridSquare {
+		height: 75px;
+		width: 75px;
+	}
+}
+@media only screen and (max-width: 375px) {
+	
 }

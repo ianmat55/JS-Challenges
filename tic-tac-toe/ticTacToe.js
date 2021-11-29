@@ -53,7 +53,6 @@ const loadHTML = (() => {
 			const bot = unbeatableComputer('O');
 			const display = displayController(player1, bot);
 			let grid = display.getGrid();
-			console.log(grid);
 	
 			loadGameBoard();
 
@@ -64,24 +63,20 @@ const loadHTML = (() => {
 			let  playerMove = (cell, index) => { 
 				cell.innerHTML = 'X';
 				grid[index] = 'X';
-				console.log(`grid1: ${grid}`);
+				display.checkWin(grid);
 				cell.classList.add('green');
 				currentPlayer = 'O';
 			};
 
 			cells.forEach((cell, index) => {
 				cell.addEventListener('click', async() => {
-					console.log(grid);
 					if (grid[index] === 'X' || grid[index] === 'O') {
 						return
 					} else {
 						await playerMove(cell, index);
-						await display.checkWin(grid);
 						grid = await display.getGrid();
-						console.log(`grid2: ${grid}`);
 						await bot.displayMove(grid);
 						display.checkWin(grid);
-						
 					}
 				});
 			});
@@ -178,16 +173,17 @@ const displayController = (p1, p2) => {
 		for (let i=0; i<winningConditions.length; i++) {
 			if (grid[winningConditions[i][0]] === "X" && grid[winningConditions[i][1]] === "X" && grid[winningConditions[i][2]] === "X") {
 				displayWinner('X');
-				return
+				return true;
 			};
 			if (grid[winningConditions[i][0]] === "O" && grid[winningConditions[i][1]] === "O" && grid[winningConditions[i][2]] === "O") {
 				displayWinner('O');
-				return
+				return true;
 			}
 		};
 		if (count === 9) {
 			displayWinner(null);
 		}
+		return false;
 	};
 
 	const displayWinner = (symbol) => {
@@ -229,11 +225,11 @@ const displayController = (p1, p2) => {
 		body.appendChild(winnerMsg);
 
 		restartBtn.addEventListener('click', () => {
-			clear();			
 			winnerMsg.remove();
+			clear();		
 		});
 
-		returnToTitle.addEventListener('click', async() => {
+		returnToTitle.addEventListener('click', () => {
 			location.reload();
 		});
 	};

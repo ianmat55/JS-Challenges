@@ -65,8 +65,6 @@ const loadHTML = (() => {
 				cell.innerHTML = 'X';
 				grid[index] = 'X';
 				console.log(`grid1: ${grid}`);
-				display.checkWin(grid);
-
 				cell.classList.add('green');
 				currentPlayer = 'O';
 			};
@@ -74,11 +72,16 @@ const loadHTML = (() => {
 			cells.forEach((cell, index) => {
 				cell.addEventListener('click', async() => {
 					console.log(grid);
-					if (grid[index] != 'X' || grid[index] != 'O') {
+					if (grid[index] === 'X' || grid[index] === 'O') {
+						return
+					} else {
 						await playerMove(cell, index);
+						await display.checkWin(grid);
 						grid = await display.getGrid();
 						console.log(`grid2: ${grid}`);
-						bot.displayMove(grid);
+						await bot.displayMove(grid);
+						display.checkWin(grid);
+						
 					}
 				});
 			});
@@ -174,11 +177,11 @@ const displayController = (p1, p2) => {
 		count++;
 		for (let i=0; i<winningConditions.length; i++) {
 			if (grid[winningConditions[i][0]] === "X" && grid[winningConditions[i][1]] === "X" && grid[winningConditions[i][2]] === "X") {
-				displayWinner(currentPlayer);
+				displayWinner('X');
 				return
 			};
 			if (grid[winningConditions[i][0]] === "O" && grid[winningConditions[i][1]] === "O" && grid[winningConditions[i][2]] === "O") {
-				displayWinner(currentPlayer);
+				displayWinner('O');
 				return
 			}
 		};
@@ -225,8 +228,8 @@ const displayController = (p1, p2) => {
 
 		body.appendChild(winnerMsg);
 
-		restartBtn.addEventListener('click', async() => {
-			await clear();			
+		restartBtn.addEventListener('click', () => {
+			clear();			
 			winnerMsg.remove();
 		});
 

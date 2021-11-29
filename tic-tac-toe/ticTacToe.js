@@ -52,16 +52,34 @@ const loadHTML = (() => {
 			const player1 = player('X');
 			const bot = unbeatableComputer('O');
 			const display = displayController(player1, bot);
+			let grid = display.getGrid();
+			console.log(grid);
 	
 			loadGameBoard();
 
 			const cells = document.querySelectorAll('.gridSquare');
 			const resetBtn = document.querySelector('.btn-danger');
 
+			// player move
+			let  playerMove = (cell, index) => { 
+				cell.innerHTML = 'X';
+				grid[index] = 'X';
+				console.log(`grid1: ${grid}`);
+				display.checkWin(grid);
+
+				cell.classList.add('green');
+				currentPlayer = 'O';
+			};
+
 			cells.forEach((cell, index) => {
 				cell.addEventListener('click', async() => {
-					await display.displayMove(cell, index);
-					bot.displayMove(display.getGrid());
+					console.log(grid);
+					if (grid[index] != 'X' || grid[index] != 'O') {
+						await playerMove(cell, index);
+						grid = await display.getGrid();
+						console.log(`grid2: ${grid}`);
+						bot.displayMove(grid);
+					}
 				});
 			});
 
@@ -144,7 +162,7 @@ const displayController = (p1, p2) => {
 		[1, 4, 7],
 		[2, 5, 8],
 		[2, 4, 6],
-		[0, 4, 1]
+		[0, 4, 8]
 	];
 
 	let currentPlayer = 'X';
@@ -152,7 +170,7 @@ const displayController = (p1, p2) => {
 	let count = 0;
 	
 	// to be refactored
-	const checkWin = () => {
+	const checkWin = (grid) => {
 		count++;
 		for (let i=0; i<winningConditions.length; i++) {
 			if (grid[winningConditions[i][0]] === "X" && grid[winningConditions[i][1]] === "X" && grid[winningConditions[i][2]] === "X") {
@@ -223,7 +241,7 @@ const displayController = (p1, p2) => {
 		}
 		cell.innerHTML = currentPlayer;
 		grid[index] = currentPlayer;
-		checkWin();
+		checkWin(grid);
 
 		if (currentPlayer == 'X') {
 			// set color to green and change currentPlayer to O
@@ -327,7 +345,6 @@ const player = (sign) => {
 };
 
 const unbeatableComputer = (sign) => {
-	let currentPlayer = 'X';
 	
 	const getSign = () => sign;
 	
@@ -347,7 +364,7 @@ const unbeatableComputer = (sign) => {
 		let randomIndex = Math.floor(Math.random() * possibleChoices.length);
 		let chosenMove = possibleChoices[randomIndex];
 		possibleChoices.splice(randomIndex, 1);
-		console.log(`possible: ${possibleChoices}, random: ${randomIndex}, choosen: ${chosenMove}`);
+
 		return chosenMove;
 	};
 
@@ -355,11 +372,18 @@ const unbeatableComputer = (sign) => {
 		const cells = document.querySelectorAll('.gridSquare');
 	
 		let botMove = makeMove(grid);
-		let chosenCell = cells[botMove-1];
+		let chosenCell = cells[botMove];
 
 		chosenCell.innerHTML = 'O';
 		chosenCell.classList.add('pink');
+
+		grid[botMove] = 'O';
+		setGrid(grid);
 	};
 
-	return { makeMove, displayMove, displayCard, getSign }
+	const setGrid = (grid) => {
+		return grid;
+	} 
+
+	return { makeMove, displayMove, displayCard, getSign, setGrid }
 };

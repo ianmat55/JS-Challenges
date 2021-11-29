@@ -46,24 +46,40 @@ const loadHTML = (() => {
 		settingsDiv.appendChild(aiBtn);
 		settingsDiv.appendChild(pvp);
 
-		aiBtn.addEventListener('click', async() => {
+		// vs ROBOT
+		aiBtn.addEventListener('click', () => {
+			settingsDiv.remove();
 			const player1 = player('X');
 			const bot = unbeatableComputer('O');
-			const board = loadGameBoard(player1, bot);
-			const display = displayController();
-			
-			await settingsDiv.remove();
-		});
+			const display = displayController(player1, bot);
 	
-		pvp.addEventListener('click', async() => {
-			const player1 = player('X');
-			const player2 = player('O');
-			const board = loadGameBoard(player1, player2);
-			const display = displayController();
+			loadGameBoard();
+
 			const cells = document.querySelectorAll('.gridSquare');
 			const resetBtn = document.querySelector('.btn-danger');
 
-			await settingsDiv.remove();
+			cells.forEach((cell, index) => {
+				cell.addEventListener('click', async() => {
+					await display.displayMove(cell, index);
+					bot.displayMove(display.getGrid());
+				});
+			});
+
+			resetBtn.addEventListener('click', () => display.clear());
+
+		});
+		
+		// vs PLAYER
+		pvp.addEventListener('click', () => {
+			settingsDiv.remove();
+			const player1 = player('X');
+			const player2 = player('O');
+			const display = displayController(player1, player2);
+
+			loadGameBoard();
+
+			const cells = document.querySelectorAll('.gridSquare');
+			const resetBtn = document.querySelector('.btn-danger');
 
 			// How does forEach know what to assign each parameter? How does it magically know the index?
 			cells.forEach((cell, index) => {
@@ -75,45 +91,8 @@ const loadHTML = (() => {
 	});
 })();
 
-// IIFE since there is only one gameboard
-const loadGameBoard = (p1, p2) => {
+const loadGameBoard = () => {
 	const container = document.querySelector('.container');
-
-	// display player/bot cards
-	const displayCards = (() => {
-		const card1 = p1.displayCard();
-		const card2 = p2.displayCard();
-
-		const playerCards = document.createElement('div');
-		playerCards.setAttribute('id', 'playerCards');
-		const player1 = document.createElement('div');
-		const player2 = document.createElement('div');
-
-		playerSymbol1 = document.createElement('h2');
-		playerSymbol1.innerHTML = p1.getSign();
-		player1.appendChild(playerSymbol1);
-		playerName1 = document.createElement('h3');
-		playerName1.innerHTML = `Player ${card1}`;
-		player1.appendChild(playerName1);
-		player1.classList.add('player');
-		playerCards.appendChild(player1);
-
-		playerName2 = document.createElement('h3');
-		if (card2 != 'Robot') {
-			playerName2.innerHTML = `Player ${card2}`
-			player2.classList.add('player');
-		} else {
-			playerName2.innerHTML = card2;
-			player2.classList.add('bot')
-		}
-		playerSymbol2 = document.createElement('h2');
-		playerSymbol2.innerHTML = p2.getSign();
-		player2.appendChild(playerSymbol2);
-		player2.appendChild(playerName2);
-		playerCards.appendChild(player2);
-
-		container.appendChild(playerCards);
-	})();
 
 	// load game board
 	const loadBoard = (() => {
@@ -139,12 +118,12 @@ const loadGameBoard = (p1, p2) => {
 		resetDisplay.appendChild(resetButton);
 	})();
 
-	return { displayCards, loadBoard, resetButton };
+	return { loadBoard, resetButton };
 };
 
 
 // Where the game logic happens
-const displayController = () => {
+const displayController = (p1, p2) => {
 	let grid = [
 		'', '', '',
 		'', '', '',
@@ -271,7 +250,64 @@ const displayController = () => {
 		});
 	};
 
-	return { grid, currentPlayer, gameActive, clear, displayMove, checkWin, displayWinner };
+	// display player/bot cards
+	const displayCards = (() => {
+		const container = document.querySelector('.container');
+		const card1 = p1.displayCard();
+		const card2 = p2.displayCard();
+
+		const playerCards = document.createElement('div');
+		playerCards.setAttribute('id', 'playerCards');
+		const player1 = document.createElement('div');
+		const player2 = document.createElement('div');
+
+		playerSymbol1 = document.createElement('h2');
+		playerSymbol1.innerHTML = p1.getSign();
+		player1.appendChild(playerSymbol1);
+		playerName1 = document.createElement('h3');
+		playerName1.innerHTML = `Player ${card1}`;
+		player1.appendChild(playerName1);
+		player1.classList.add('player');
+		playerCards.appendChild(player1);
+
+		playerName2 = document.createElement('h3');
+		if (card2 != 'Robot') {
+			playerName2.innerHTML = `Player ${card2}`
+			player2.classList.add('player');
+		} else {
+			playerName2.innerHTML = card2;
+			player2.classList.add('bot')
+		}
+		playerSymbol2 = document.createElement('h2');
+		playerSymbol2.innerHTML = p2.getSign();
+		player2.appendChild(playerSymbol2);
+		player2.appendChild(playerName2);
+		playerCards.appendChild(player2);
+
+		container.appendChild(playerCards);
+	})();
+
+	const getGrid = () => {
+		return grid;
+	};
+
+	const updateGrid = (newGrid) => {
+		grid = newGrid;
+	}
+
+	const getCurrentPlayer = () => {
+		return currentPlayer;
+	};
+
+	const updatePlayer = (newCurrentPlayer) => {
+		currentPlayer = newCurrentPlayer;
+	}
+
+	const isActive = () => {
+		return gameActive;
+	};
+
+	return { getCurrentPlayer, updatePlayer, isActive, clear, displayMove, checkWin, displayWinner, getGrid, updateGrid };
 };
 
 const player = (sign) => {
@@ -291,11 +327,39 @@ const player = (sign) => {
 };
 
 const unbeatableComputer = (sign) => {
+	let currentPlayer = 'X';
+	
 	const getSign = () => sign;
 	
 	const displayCard = () => {
 		return 'Robot'
-	}
+	};
 
-	return { displayCard, getSign }
+	const makeMove = (grid) => {
+		let possibleChoices = [];
+
+		for (let i=0; i<grid.length; i++) {
+			if (grid[i] == "") {
+				possibleChoices.push(i);
+			}
+		};
+
+		let randomIndex = Math.floor(Math.random() * possibleChoices.length);
+		let chosenMove = possibleChoices[randomIndex];
+		possibleChoices.splice(randomIndex, 1);
+		console.log(`possible: ${possibleChoices}, random: ${randomIndex}, choosen: ${chosenMove}`);
+		return chosenMove;
+	};
+
+	const displayMove = async(grid) => {
+		const cells = document.querySelectorAll('.gridSquare');
+	
+		let botMove = makeMove(grid);
+		let chosenCell = cells[botMove-1];
+
+		chosenCell.innerHTML = 'O';
+		chosenCell.classList.add('pink');
+	};
+
+	return { makeMove, displayMove, displayCard, getSign }
 };

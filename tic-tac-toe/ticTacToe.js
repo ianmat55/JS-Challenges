@@ -73,10 +73,12 @@ const loadHTML = (() => {
 					if (grid[index] === 'X' || grid[index] === 'O') {
 						return
 					} else {
-						await playerMove(cell, index);
+						playerMove(cell, index);
+						if (bot.displayMove(grid)) {
+							return;
+						}
 						grid = await display.getGrid();
-						await bot.displayMove(grid);
-						display.checkWin(grid);
+						display.checkWin(grid)			
 					}
 				});
 			});
@@ -181,6 +183,7 @@ const displayController = (p1, p2) => {
 			}
 		};
 		if (count === 9) {
+			console.log(count);
 			displayWinner(null);
 		}
 		return false;
@@ -188,7 +191,6 @@ const displayController = (p1, p2) => {
 
 	const displayWinner = (symbol) => {
 		const body = document.querySelector('body');
-		const container = document.querySelector('.container');
 
 		// create winnerMsg
 		const winnerMsg = document.createElement('div');

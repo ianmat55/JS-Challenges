@@ -4,6 +4,9 @@
 // rule of thumb: if you only need one of something, use a module, else use a factory
 // Squid game theme
 
+
+// TODO: ADD SCORING SYSTEM
+
 // IIFE to load base html
 const loadHTML = (() => {
 	const body = document.querySelector('body');
@@ -63,22 +66,30 @@ const loadHTML = (() => {
 			let  playerMove = (cell, index) => { 
 				cell.innerHTML = 'X';
 				grid[index] = 'X';
-				display.checkWin(grid);
 				cell.classList.add('green');
 				currentPlayer = 'O';
 			};
 
 			cells.forEach((cell, index) => {
 				cell.addEventListener('click', async() => {
-					if (grid[index] === 'X' || grid[index] === 'O') {
+					if (grid[index] === 'X' || grid[index] === 'O') { // if cell already selected, exit
 						return
 					} else {
 						playerMove(cell, index);
-						if (bot.displayMove(grid)) {
+						if (display.checkWin(grid)) {
+							return
+						};
+
+						bot.dumbMove(grid); 
+						if (display.checkWin(grid)) {
 							return;
 						}
-						grid = await display.getGrid();
-						display.checkWin(grid)			
+						grid = display.getGrid();
+
+						// testing minimax, remove once done
+						bot.miniMax(grid);
+						////////////////////////////////////
+		
 					}
 				});
 			});
@@ -346,6 +357,9 @@ const player = (sign) => {
 };
 
 const unbeatableComputer = (sign) => {
+
+	const human = 'X';
+	const bot = 'O';
 	
 	const getSign = () => sign;
 	
@@ -353,14 +367,112 @@ const unbeatableComputer = (sign) => {
 		return 'Robot'
 	};
 
-	const makeMove = (grid) => {
+	const miniMax = (newGrid, player) => {
+		// results in either a win or a draw
+
+		let possibleChoices = checkPossibleChoices(newGrid);
+
+		// return val if terminal state is found (+10, 0; -10)
+		if (checkState(newGrid, human)) {
+			return {
+				score: -10
+			};
+		} else if (checkState(newGrid, bot)) {
+			return {
+				score: 10
+			};
+		} else if (possibleChoices === null) {
+			return {
+				score: 0
+			};
+		}
+
+		let moves = [];
+
+		// go through available spots on the board
+		for (let i = 0; i < possibleChoices.length; i++) {
+			let move = {};
+			move.index = newGrid[possibleChoices[i]];
+			newGrid[possibleChoices[i]] = player;
+		
+		
+		// call the minimax function on each available spot (recursion)
+			if (player == bot) {
+			  let g = minimax(newBoard, human);
+			  move.score = g.score;
+			} else {
+			  let g = minimax(newBoard, bot);
+			  move.score = g.score;
+			}
+			newGrid[possibleChoices[i]] = move.index;
+			moves.push(move);
+		  }
+
+		// evaluate returning values from function calls
+		let bestMove;
+		if (player === bot) {
+			let bestScore = -10000;
+			for (let i = 0; i < moves.length; i++) {
+				if (moves[i].score > bestScore) {
+					bestScore = moves[i].score;
+					bestMove = i;
+				}
+			};
+		} else {
+			let bestScore = 10000;
+			for (var i = 0; i < moves.length; i++) {
+				if (moves[i].score < bestScore) {
+					bestScore = moves[i].score;
+					bestMove = i;
+				}
+			};
+		}
+		return moves[bestMove]; // return best value
+	};
+
+	const checkPossibleChoices = (newGrid) => {
 		let possibleChoices = [];
 
-		for (let i=0; i<grid.length; i++) {
-			if (grid[i] == "") {
+		for (let i=0; i<newGrid.length; i++) {
+			if (newGrid[i] == "") {
 				possibleChoices.push(i);
 			}
 		};
+
+		if (possibleChoices.length > 0) {
+			return possibleChoices;
+		} else {
+			return null;
+		}
+	};
+
+	const checkState = async(newGrid, player) => {
+		const winningConditions = [
+			[0, 1, 2],
+			[3, 4, 5],
+			[6, 7, 8],
+			[0, 3, 6],
+			[1, 4, 7],
+			[2, 5, 8],
+			[2, 4, 6],
+			[0, 4, 8]
+		];
+
+		for (let i=0; i<winningConditions.length; i++) {
+			if (newGrid[winningConditions[i][0]] === player && newGrid[winningConditions[i][1]] === player && newGrid[winningConditions[i][2]] === player) {
+				return true;
+			}
+		};
+
+		return false;
+	};
+
+	const chooseDumbMove = (newGrid) => {
+		let possibleChoices = checkPossibleChoices(newGrid);
+		console.log(possibleChoices);
+		if(possibleChoices === null) {
+			return 
+		}
 
 		let randomIndex = Math.floor(Math.random() * possibleChoices.length);
 		let chosenMove = possibleChoices[randomIndex];
@@ -369,22 +481,22 @@ const unbeatableComputer = (sign) => {
 		return chosenMove;
 	};
 
-	const displayMove = async(grid) => {
+	const dumbMove = (newGrid) => {
 		const cells = document.querySelectorAll('.gridSquare');
 	
-		let botMove = makeMove(grid);
+		let botMove = chooseDumbMove(newGrid);
 		let chosenCell = cells[botMove];
 
 		chosenCell.innerHTML = 'O';
 		chosenCell.classList.add('pink');
 
-		grid[botMove] = 'O';
-		setGrid(grid);
+		newGrid[botMove] = 'O';
+		setGrid(newGrid);
 	};
 
-	const setGrid = (grid) => {
-		return grid;
+	const setGrid = (newGrid) => {
+		return newGrid;
 	} 
 
-	return { makeMove, displayMove, displayCard, getSign, setGrid }
+	return { chooseDumbMove, dumbMove, displayCard, getSign, setGrid, miniMax }
 };

@@ -67,7 +67,6 @@ const loadHTML = (() => {
 				cell.innerHTML = 'X';
 				grid[index] = 'X';
 				cell.classList.add('green');
-				currentPlayer = 'O';
 			};
 
 			cells.forEach((cell, index) => {
@@ -80,16 +79,15 @@ const loadHTML = (() => {
 							return
 						};
 
-						bot.dumbMove(grid); 
+						// testing minimax, remove once done
+						// let index1 = bot.miniMax(grid, 'O').index;
+						////////////////////////////////////
+
+						// bot.dumbMove(grid); 
+						bot.unbeatableMove(grid);
 						if (display.checkWin(grid)) {
 							return;
-						}
-						grid = display.getGrid();
-
-						// testing minimax, remove once done
-						bot.miniMax(grid);
-						////////////////////////////////////
-		
+						}		
 					}
 				});
 			});
@@ -154,9 +152,9 @@ const loadGameBoard = () => {
 // Where the game logic happens
 const displayController = (p1, p2) => {
 	let grid = [
-		'', '', '',
-		'', '', '',
-		'', '', ''
+		0, 1, 2,
+		3, 4, 5,
+		6, 7, 6
 	];
 
 	/*
@@ -194,7 +192,6 @@ const displayController = (p1, p2) => {
 			}
 		};
 		if (count === 9) {
-			console.log(count);
 			displayWinner(null);
 		}
 		return false;
@@ -248,7 +245,7 @@ const displayController = (p1, p2) => {
 	};
 
 	const displayMove = async(cell, index) => {
-		if (grid[index] != '') {
+		if ((grid[index] == 'X') || (grid[index]=='O')) {
 			return
 		}
 		cell.innerHTML = currentPlayer;
@@ -323,7 +320,7 @@ const displayController = (p1, p2) => {
 
 	const updateGrid = (newGrid) => {
 		grid = newGrid;
-	}
+	};
 
 	const getCurrentPlayer = () => {
 		return currentPlayer;
@@ -338,46 +335,45 @@ const displayController = (p1, p2) => {
 	};
 
 	return { getCurrentPlayer, updatePlayer, isActive, clear, displayMove, checkWin, displayWinner, getGrid, updateGrid };
-};
+	};
 
-const player = (sign) => {
-	const getSign = () => sign;
+	const player = (sign) => {
+		const getSign = () => sign;
 
-	const getRandom = (max) => {
-		return Math.floor(Math.random() * max)
-	}
+		const getRandom = (max) => {
+			return Math.floor(Math.random() * max)
+		}
 
-	const displayCard = () => {
-		const numberOfPlayers = getRandom(456) // number of squid game players
+		const displayCard = () => {
+			const numberOfPlayers = getRandom(456) // number of squid game players
 
-		return numberOfPlayers
-	}
+			return numberOfPlayers
+		}
 
-	return { getSign, displayCard }
-};
+		return { getSign, displayCard }
+	};
 
-const unbeatableComputer = (sign) => {
+	const unbeatableComputer = (sign) => {
 
-	const human = 'X';
-	const bot = 'O';
-	
-	const getSign = () => sign;
-	
-	const displayCard = () => {
-		return 'Robot'
+		const human = 'X';
+		const bot = 'O';
+		
+		const getSign = () => sign;
+		
+		const displayCard = () => {
+			return 'Robot'
 	};
 
 	const miniMax = (newGrid, player) => {
 		// results in either a win or a draw
-
 		let possibleChoices = checkPossibleChoices(newGrid);
-
+		
 		// return val if terminal state is found (+10, 0; -10)
-		if (checkState(newGrid, human)) {
+		if (checkState(newGrid, human) === true) {
 			return {
 				score: -10
 			};
-		} else if (checkState(newGrid, bot)) {
+		} else if (checkState(newGrid, bot) === true) {
 			return {
 				score: 10
 			};
@@ -388,25 +384,24 @@ const unbeatableComputer = (sign) => {
 		}
 
 		let moves = [];
-
 		// go through available spots on the board
-		for (let i = 0; i < possibleChoices.length; i++) {
+		for (let i = 0; i < possibleChoices.length; i++) { // for loop not iterating
 			let move = {};
 			move.index = newGrid[possibleChoices[i]];
 			newGrid[possibleChoices[i]] = player;
-		
-		
+			// console.log(`array: ${possibleChoices}, array[index]: ${possibleChoices[i]}, reboard: ${newGrid[possibleChoices[i]]}`);
+			
 		// call the minimax function on each available spot (recursion)
 			if (player == bot) {
-			  let g = minimax(newBoard, human);
-			  move.score = g.score;
+				let result = miniMax(newGrid, human);
+				move.score = result.score;
 			} else {
-			  let g = minimax(newBoard, bot);
-			  move.score = g.score;
+				let result = miniMax(newGrid, bot);
+				move.score = result.score;
 			}
-			newGrid[possibleChoices[i]] = move.index;
+			newGrid[possibleChoices[i]] = move.index; // this is where it goes wrong
 			moves.push(move);
-		  }
+		}
 
 		// evaluate returning values from function calls
 		let bestMove;
@@ -420,7 +415,7 @@ const unbeatableComputer = (sign) => {
 			};
 		} else {
 			let bestScore = 10000;
-			for (var i = 0; i < moves.length; i++) {
+			for (let i = 0; i < moves.length; i++) {
 				if (moves[i].score < bestScore) {
 					bestScore = moves[i].score;
 					bestMove = i;
@@ -430,23 +425,22 @@ const unbeatableComputer = (sign) => {
 		return moves[bestMove]; // return best value
 	};
 
-	const checkPossibleChoices = (newGrid) => {
+	const checkPossibleChoices = (newGrid) => { // stack overflow: not updating newGrid in minimax resulting in infinite loop!!!
 		let possibleChoices = [];
 
 		for (let i=0; i<newGrid.length; i++) {
-			if (newGrid[i] == "") {
+			if (typeof newGrid[i] === 'number') {
 				possibleChoices.push(i);
 			}
 		};
 
-		if (possibleChoices.length > 0) {
-			return possibleChoices;
-		} else {
+		if (possibleChoices.length === 0) {
 			return null;
 		}
+		return possibleChoices;
 	};
 
-	const checkState = async(newGrid, player) => {
+	const checkState = (newGrid, player) => {
 		const winningConditions = [
 			[0, 1, 2],
 			[3, 4, 5],
@@ -466,10 +460,24 @@ const unbeatableComputer = (sign) => {
 
 		return false;
 	};
+  
+	const unbeatableMove = async(newGrid) => {
+	
+		const cells = document.querySelectorAll('.gridSquare');
+
+		let index = await miniMax(newGrid, 'O').index;
+		let chosenCell = cells[index];
+
+		chosenCell.innerHTML = 'O';
+		chosenCell.classList.add('pink');
+		console.log(chosenCell);
+
+		newGrid[index] = '0';
+		setGrid(newGrid)
+	}
 
 	const chooseDumbMove = (newGrid) => {
 		let possibleChoices = checkPossibleChoices(newGrid);
-		console.log(possibleChoices);
 		if(possibleChoices === null) {
 			return 
 		}
@@ -498,5 +506,5 @@ const unbeatableComputer = (sign) => {
 		return newGrid;
 	} 
 
-	return { chooseDumbMove, dumbMove, displayCard, getSign, setGrid, miniMax }
+	return { chooseDumbMove, dumbMove, displayCard, getSign, setGrid, miniMax, unbeatableMove }
 };

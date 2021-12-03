@@ -74,17 +74,14 @@ const loadHTML = (() => {
 					if (grid[index] === 'X' || grid[index] === 'O') { // if cell already selected, exit
 						return
 					} else {
-						playerMove(cell, index);
+						await playerMove(cell, index);
+						// console.log(grid);
 						if (display.checkWin(grid)) {
 							return
 						};
-
-						// testing minimax, remove once done
-						// let index1 = bot.miniMax(grid, 'O').index;
-						////////////////////////////////////
-
-						// bot.dumbMove(grid); 
-						bot.unbeatableMove(grid);
+						// await bot.dumbMove(grid); 
+						await bot.unbeatableMove(grid);
+						console.log(grid);
 						if (display.checkWin(grid)) {
 							return;
 						}		
@@ -154,7 +151,7 @@ const displayController = (p1, p2) => {
 	let grid = [
 		0, 1, 2,
 		3, 4, 5,
-		6, 7, 6
+		6, 7, 8
 	];
 
 	/*
@@ -267,7 +264,7 @@ const displayController = (p1, p2) => {
 		currentPlayer = 'X';
 		count = 0;
 		for (let i=0; i<grid.length; i++) {
-			grid[i] = '';
+			grid[i] = i;
 		}
 
 		const cells = document.querySelectorAll('.gridSquare');
@@ -462,18 +459,20 @@ const displayController = (p1, p2) => {
 	};
   
 	const unbeatableMove = async(newGrid) => {
-	
-		const cells = document.querySelectorAll('.gridSquare');
+		possibleChoices = checkPossibleChoices(newGrid);
+		// console.log(possibleChoices);
 
-		let index = await miniMax(newGrid, 'O').index;
-		let chosenCell = cells[index];
+		if (possibleChoices != null) { 
+			const cells = document.querySelectorAll('.gridSquare');
 
-		chosenCell.innerHTML = 'O';
-		chosenCell.classList.add('pink');
-		console.log(chosenCell);
+			let botMove = await miniMax(newGrid, 'O').index;
+			let chosenCell = cells[botMove];
 
-		newGrid[index] = '0';
-		setGrid(newGrid)
+			chosenCell.innerHTML = 'O';
+			chosenCell.classList.add('pink');
+
+			newGrid[botMove] = 'O';
+		}
 	}
 
 	const chooseDumbMove = (newGrid) => {

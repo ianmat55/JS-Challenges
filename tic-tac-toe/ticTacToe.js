@@ -75,13 +75,11 @@ const loadHTML = (() => {
 						return
 					} else {
 						await playerMove(cell, index);
-						// console.log(grid);
 						if (display.checkWin(grid)) {
 							return
 						};
 						// await bot.dumbMove(grid); 
 						await bot.unbeatableMove(grid);
-						console.log(grid);
 						if (display.checkWin(grid)) {
 							return;
 						}		
@@ -382,7 +380,7 @@ const displayController = (p1, p2) => {
 
 		let moves = [];
 		// go through available spots on the board
-		for (let i = 0; i < possibleChoices.length; i++) { // for loop not iterating
+		for (let i = 0; i < possibleChoices.length; i++) {
 			let move = {};
 			move.index = newGrid[possibleChoices[i]];
 			newGrid[possibleChoices[i]] = player;
@@ -396,7 +394,7 @@ const displayController = (p1, p2) => {
 				let result = miniMax(newGrid, bot);
 				move.score = result.score;
 			}
-			newGrid[possibleChoices[i]] = move.index; // this is where it goes wrong
+			newGrid[possibleChoices[i]] = move.index;
 			moves.push(move);
 		}
 
@@ -422,7 +420,7 @@ const displayController = (p1, p2) => {
 		return moves[bestMove]; // return best value
 	};
 
-	const checkPossibleChoices = (newGrid) => { // stack overflow: not updating newGrid in minimax resulting in infinite loop!!!
+	const checkPossibleChoices = (newGrid) => {
 		let possibleChoices = [];
 
 		for (let i=0; i<newGrid.length; i++) {
@@ -460,17 +458,13 @@ const displayController = (p1, p2) => {
   
 	const unbeatableMove = async(newGrid) => {
 		possibleChoices = checkPossibleChoices(newGrid);
-		// console.log(possibleChoices);
 
 		if (possibleChoices != null) { 
 			const cells = document.querySelectorAll('.gridSquare');
-
 			let botMove = await miniMax(newGrid, 'O').index;
 			let chosenCell = cells[botMove];
-
 			chosenCell.innerHTML = 'O';
 			chosenCell.classList.add('pink');
-
 			newGrid[botMove] = 'O';
 		}
 	}

@@ -4,7 +4,9 @@
   "description": "Collection of JavaScript Coding Challenges",
   "main": "index.js",
   "scripts": {
-    "deploy": "gh-pages -d ./"
+    "deploy": "gh-pages -d ./",
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -18,5 +20,9 @@
   "homepage": "https://github.com/ianmat55/JS-Challenges",
   "dependencies": {
     "gh-pages": "^3.2.3"
+  },
+  "devDependencies": {
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1"
   }
 }

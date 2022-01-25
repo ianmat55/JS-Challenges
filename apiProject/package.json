@@ -1,0 +1,24 @@
+{
+  "name": "apiproject",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch:css": "npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+    "build:css": "npx tailwindcss -i ./src/input.css -o ./dist/output.css",
+    "build": "npx tailwindcss -i ./src/input.css -o ./dist/output.css && webpack",
+    "watch": "webpack --watch && npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "css-loader": "^6.5.1",
+    "dotenv-webpack": "^7.0.3",
+    "eslint": "^8.6.0",
+    "style-loader": "^3.3.1",
+    "tailwindcss": "^3.0.12",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1"
+  }
+}
